@@ -33,9 +33,9 @@ bool compare(const Point& p0, const Point& p1, const Point& p2) {
     return o == 2;
 }
 
-// ¥Y¥]¥Dºâªk
+// å‡¸åŒ…ä¸»ç®—æ³•
 vector<Point> convexHull(Point points[], int n) {
-    // ´M§ä³Ì¥ª¤UªºÂI
+    // å°‹æ‰¾æœ€å·¦ä¸‹çš„é»
     int minY = points[0].y, min = 0;
     for (int i = 1; i < n; i++) {
         int y = points[i].y;
@@ -43,25 +43,25 @@ vector<Point> convexHull(Point points[], int n) {
             minY = points[i].y, min = i;
     }
     
-    // ±N³o­ÓÂI©ñ¨ì points[0]
+    // å°‡é€™å€‹é»æ”¾åˆ° points[0]
     swap(points[0], points[min]);
     
-    // ¹ïÂI«ö·Ó»P points[0] ªº·¥¨¤±Æ§Ç
+    // å°é»æŒ‰ç…§èˆ‡ points[0] çš„æ¥µè§’æ’åº
     Point p0 = points[0];
     sort(points + 1, points + n, [p0](const Point& a, const Point& b) {
         return compare(p0, a, b);
     });
     
-    // ºc«Ø¥Y¥]
+    // æ§‹å»ºå‡¸åŒ…
     vector<Point> hull;
     
-    // §â«e¤T­ÓÂI¥[¤J¥Y¥]
+    // æŠŠå‰ä¸‰å€‹é»åŠ å…¥å‡¸åŒ…
     for (int i = 0; i < 3; i++)
         hull.push_back(points[i]);
     
-    // ³B²z³Ñ¾lªºÂI
+    // è™•ç†å‰©é¤˜çš„é»
     for (int i = 3; i < n; i++) {
-        // ºû«ù¥Y¥]ªº©Ê½è
+        // ç¶­æŒå‡¸åŒ…çš„æ€§è³ª
         while (orientation(hull[hull.size() - 2], hull.back(), points[i]) != 2)
             hull.pop_back();
         hull.push_back(points[i]);
