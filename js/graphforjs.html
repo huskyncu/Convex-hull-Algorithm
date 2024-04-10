@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Convex Hull Visualization</title>
+    <script>
+      let points = []; // 存?用??入的?
+
+      // 凸包?算函?
+      function calculateConvexHull(points) {
+        // 凸包?算的核心算法保持不?
+        points.sort((a, b) => a.y - b.y || a.x - b.x);
+        const start = points.shift();
+        points.sort((a, b) => {
+          const angleA = Math.atan2(a.y - start.y, a.x - start.x);
+          const angleB = Math.atan2(b.y - start.y, b.x - start.x);
+          return angleA - angleB;
+        });
+
+        const stack = [start, points[0], points[1]];
+        for (let i = 2; i < points.length; i++) {
+          let top = stack.pop();
+          while (
+            stack.length >= 1 &&
+            crossProduct(stack[stack.length - 1], top, points[i]) <= 0
+          ) {
+            top = stack.pop();
+          }
+          stack.push(top, points[i]);
+        }
+
+        return stack;
+      }
+
+      function crossProduct(p1, p2, p3) {
+        return (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x);
+      }
+
+      // ?制函?
+      function drawConvexHull(points, hull) {
+        const canvas = document.getElementById("canvas");
+        if (!canvas.getContext) {
+          return; // Canvas 不支持
+        }
+
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空?布
+
+        // ?制所有?
+        points.forEach((point) => {
+          ctx.fillStyle = "black";
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+          ctx.fill();
+        });
+
+        // ?制凸包
+        ctx.strokeStyle = "red";
+        ctx.beginPath();
+        ctx.moveTo(hull[0].x, hull[0].y);
+        hull.forEach((point) => {
+          ctx.lineTo(point.x, point.y);
+        });
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      // ?理用??入的?
+      function handleInput() {
+        const x = parseInt(document.getElementById("x-coord").value, 10);
+        const y = parseInt(document.getElementById("y-coord").value, 10);
+
+        if (!isNaN(x) && !isNaN(y)) {
+          points.push({ x, y });
+          document.getElementById("x-coord").value = "";
+          document.getElementById("y-coord").value = "";
+          drawPointsOnly(points); // 只?制?
+        }
+      }
+
+      // 只?制?，不?算凸包
+      function drawPointsOnly(points) {
+        const canvas = document.getElementById("canvas");
+        if (!canvas.getContext) {
+          return;
+        }
+
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空?布
+
+        // ?制所有?
+        points.forEach((point) => {
+          ctx.fillStyle = "black";
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+          ctx.fill();
+        });
+      }
+
+      // ?算并?制凸包
+      function computeAndDrawHull() {
+        if (points.length > 2) {
+          // 至少需要三???形成凸包
+          const hull = calculateConvexHull(points);
+          drawConvexHull(points, hull);
+        }
+      }
+
+      // 使用???并?算凸包
+      function useDefaultPoints() {
+        points = [
+          { x: 100, y: 200 },
+          { x: 300, y: 100 },
+          { x: 150, y: 150 },
+          { x: 200, y: 50 },
+          { x: 400, y: 200 },
+          { x: 250, y: 300 },
+          { x: 350, y: 250 },
+          { x: 100, y: 300 },
+        ];
+        computeAndDrawHull(); // ?算并?制凸包
+      }
+    </script>
+  </head>
+  <body>
+    <label>X座標: <input type="text" id="x-coord" /></label>
+    <label>Y座標: <input type="text" id="y-coord" /></label>
+    <button onclick="handleInput()">添加點</button>
+    <button onclick="computeAndDrawHull()">計算凸包</button>
+    <button onclick="useDefaultPoints()">使用預設點計算凸包</button>
+    <canvas
+      id="canvas"
+      width="600"
+      height="400"
+      style="border: 1px solid #000"
+    ></canvas>
+  </body>
+</html>
