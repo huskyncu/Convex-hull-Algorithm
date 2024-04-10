@@ -10,8 +10,7 @@
 * 程式碼如上面的js的資料夾裡的`graphforjs.html`所示。
 
 ### 課堂練習1
-* 現在有個問題，最高點計算凸包後都會消失，如此圖
-![image](https://hackmd.io/_uploads/SJ6BYmzeA.png)
+* 現在有個問題，最高點計算凸包後都會消失
 你的目標將會是，解決這個問題。
 
 * 參考解法：
@@ -32,11 +31,6 @@
 
 
 * 打開dev-C++，並開新專案
-
-![image](https://hackmd.io/_uploads/SJCCQvflC.png)
-
-![image](https://hackmd.io/_uploads/HJCCEDGe0.png)
-
 * 將cpp的資料夾裡的`CImg.h` 加入到專案
 
 ```
@@ -47,24 +41,18 @@
     
 
 * 接著點進工具，編譯選項。
-![image](https://hackmd.io/_uploads/Hk_PrPzxR.png)
-打以下的指令
-![image](https://hackmd.io/_uploads/rk4uSwGx0.png)
+在`呼叫編譯器時打入以下的指令`打以下的指令：
+```
+-O2 -lgdi32 -std=c++11
+```
 
-* 按下紅色圈圈內的編譯執行的按紐
-
-
-![image](https://hackmd.io/_uploads/SJjsrwGgC.png)
+* 按下編譯執行的按紐
 
 ### 課堂練習2
-![image](https://hackmd.io/_uploads/HyPb8wzeC.png)
 
-執行完後，你突然會發現雖然程式都沒問題，但似乎好像啥都沒有？
+執行完後，你突然會發現雖然程式都沒問題，但似乎好像啥都沒有看到？
 你的任務就是，去解決這個問題。
 提示：平移跟放大。
-
-最後應該要長這樣
-![image](https://hackmd.io/_uploads/r1_pIwfgC.png)
 
 ## Python 
 
